@@ -12,6 +12,7 @@ void signUp(
     required String username}) {}
 
 class SignUpScreen extends StatelessWidget {
+  static final routeName = "/signup";
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -98,7 +99,7 @@ class SignUpScreen extends StatelessWidget {
                 ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: buttonColor),
-                    onPressed: () => Navigator.push(context,
+                    onPressed: () => Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (_) => LoginScreen())),
                     child: Text("Login")),
               ],
