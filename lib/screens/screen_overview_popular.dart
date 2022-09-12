@@ -143,7 +143,7 @@ Widget MyDrawerList(BuildContext context) {
             6,
             "Reviews",
             Icons.line_style,
-            currentPage.currentPage == drawerSections.diary ? true : false,
+            currentPage.currentPage == drawerSections.reviews ? true : false,
             context),
         menuItem(
             7,
@@ -176,10 +176,6 @@ Widget menuItem(
     child: InkWell(
       onTap: (() {
         currentPage.changeCurrentPage(drawerSections.values[id]);
-        print(currentPage.currentPage);
-        print(id);
-
-        print(selected);
       }),
       child: Padding(
         padding: EdgeInsets.all(15),
