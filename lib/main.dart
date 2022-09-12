@@ -3,6 +3,7 @@ import 'package:marvel_app_2/screens/screen_login.dart';
 import 'package:marvel_app_2/screens/screen_signup.dart';
 import 'package:marvel_app_2/screens/screen_overview_popular.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,17 +15,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MarvelBox',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CurrentPage>(create: (context) => CurrentPage())
+      ],
+      child: MaterialApp(
+        title: 'MarvelBox',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SignUpScreen(),
+        routes: {
+          LoginScreen.routeName: (context) => LoginScreen(),
+          SignUpScreen.routeName: (context) => SignUpScreen(),
+          PopularScreen.routeName: (context) => PopularScreen()
+        },
       ),
-      home: SignUpScreen(),
-      routes: {
-        LoginScreen.routeName: (context) => LoginScreen(),
-        SignUpScreen.routeName: (context) => SignUpScreen(),
-        PopularScreen.routeName: (context) => PopularScreen()
-      },
     );
   }
 }

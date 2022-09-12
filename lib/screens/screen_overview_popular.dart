@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
+import 'package:provider/provider.dart';
+
+class CurrentPage extends ChangeNotifier {
+  var currentPage = drawerSections.popular;
+  void changeCurrentPage(drawerSections replace) {
+    currentPage = replace;
+    notifyListeners();
+  }
+}
 
 class PopularScreen extends StatelessWidget {
   static final routeName = '/popular';
@@ -35,9 +44,11 @@ class PopularScreen extends StatelessWidget {
     ),
   ];
 
-  var currentPage = drawerSections.popular;
   @override
   Widget build(BuildContext context) {
+    final currentPage = Provider.of<CurrentPage>(
+      context,
+    );
     return DefaultTabController(
         length: tabList.length,
         child: Scaffold(
@@ -55,15 +66,17 @@ class PopularScreen extends StatelessWidget {
             ),
           ),
           body: TabBarView(children: tabScreens),
-          drawer: AppDrawer(currentPage),
+          drawer: AppDrawer(),
         ));
   }
 }
 
-class AppDrawer extends StatelessWidget {
-  drawerSections currentPage;
-  AppDrawer(this.currentPage);
+class AppDrawer extends StatefulWidget {
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
 
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -75,48 +88,99 @@ class AppDrawer extends StatelessWidget {
             height: 200,
             color: appBlueTheme,
           ),
-          MyDrawerList(currentPage)
+          MyDrawerList(context)
         ]),
       )),
     );
   }
 }
 
-Widget MyDrawerList(drawerSections currentPage) {
+Widget MyDrawerList(BuildContext context) {
+  final currentPage = Provider.of<CurrentPage>(
+    context,
+  );
   return Container(
     padding: EdgeInsets.only(top: 15),
     child: Column(
       children: [
-        menuItem(0, "Popular", Icons.view_week,
-            currentPage == drawerSections.popular ? true : false),
-        menuItem(1, "Search", Icons.search,
-            currentPage == drawerSections.search ? true : false),
-        menuItem(2, "Profile", Icons.account_circle,
-            currentPage == drawerSections.profile ? true : false),
-        menuItem(3, "Watchlist", Icons.watch_later,
-            currentPage == drawerSections.watchlist ? true : false),
-        menuItem(4, "Lists", Icons.grid_3x3,
-            currentPage == drawerSections.lists ? true : false),
-        menuItem(5, "Diary", Icons.calendar_month,
-            currentPage == drawerSections.diary ? true : false),
-        menuItem(6, "Reviews", Icons.line_style,
-            currentPage == drawerSections.diary ? true : false),
-        menuItem(7, "Activity", Icons.upcoming,
-            currentPage == drawerSections.activity ? true : false),
-        menuItem(8, "Settings", Icons.settings,
-            currentPage == drawerSections.settings ? true : false),
-        menuItem(9, "Sign out", Icons.logout,
-            currentPage == drawerSections.signout ? true : false),
+        menuItem(
+            0,
+            "Popular",
+            Icons.view_week,
+            currentPage.currentPage == drawerSections.popular ? true : false,
+            context),
+        menuItem(
+            1,
+            "Search",
+            Icons.search,
+            currentPage.currentPage == drawerSections.search ? true : false,
+            context),
+        menuItem(
+            2,
+            "Profile",
+            Icons.account_circle,
+            currentPage.currentPage == drawerSections.profile ? true : false,
+            context),
+        menuItem(
+            3,
+            "Watchlist",
+            Icons.watch_later,
+            currentPage.currentPage == drawerSections.watchlist ? true : false,
+            context),
+        menuItem(
+            4,
+            "Lists",
+            Icons.grid_3x3,
+            currentPage.currentPage == drawerSections.lists ? true : false,
+            context),
+        menuItem(
+            5,
+            "Diary",
+            Icons.calendar_month,
+            currentPage.currentPage == drawerSections.diary ? true : false,
+            context),
+        menuItem(
+            6,
+            "Reviews",
+            Icons.line_style,
+            currentPage.currentPage == drawerSections.diary ? true : false,
+            context),
+        menuItem(
+            7,
+            "Activity",
+            Icons.upcoming,
+            currentPage.currentPage == drawerSections.activity ? true : false,
+            context),
+        menuItem(
+            8,
+            "Settings",
+            Icons.settings,
+            currentPage.currentPage == drawerSections.settings ? true : false,
+            context),
+        menuItem(
+            9,
+            "Sign out",
+            Icons.logout,
+            currentPage.currentPage == drawerSections.signout ? true : false,
+            context),
       ],
     ),
   );
 }
 
-Widget menuItem(int id, String title, IconData icon, bool selected) {
+Widget menuItem(
+    int id, String title, IconData icon, bool selected, BuildContext context) {
+  final currentPage = Provider.of<CurrentPage>(context, listen: false);
   return Material(
-    color: bgColor,
+    color: selected ? appBlueTheme : bgColor,
     child: InkWell(
-      onTap: (() => {}),
+      onTap: (() {
+        currentPage.changeCurrentPage(drawerSections.values[id]);
+        print(currentPage.currentPage);
+        print(id);
+
+        print(selected);
+      }),
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Row(children: [
