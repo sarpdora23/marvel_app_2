@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:marvel_app_2/screens/activity_screen.dart';
+import 'package:marvel_app_2/screens/lists_screen.dart';
+import 'package:marvel_app_2/screens/profile_screen.dart';
+import 'package:marvel_app_2/screens/reviews_screen.dart';
+import 'package:marvel_app_2/screens/search_overview.dart';
+import 'package:marvel_app_2/screens/settings_screen.dart';
+import 'package:marvel_app_2/screens/signout_screen.dart';
+import 'package:marvel_app_2/screens/watchlist_screen.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 
-class CurrentPage extends ChangeNotifier {
+import 'diary_screen.dart';
+
+class PageNumberController extends ChangeNotifier {
   var currentPage = drawerSections.popular;
+  var previousPage = drawerSections.popular;
   void changeCurrentPage(drawerSections replace) {
+    previousPage = currentPage;
     currentPage = replace;
     notifyListeners();
   }
@@ -46,7 +58,7 @@ class PopularScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentPage = Provider.of<CurrentPage>(
+    final pageController = Provider.of<PageNumberController>(
       context,
     );
     return DefaultTabController(
@@ -96,7 +108,7 @@ class _AppDrawerState extends State<AppDrawer> {
 }
 
 Widget MyDrawerList(BuildContext context) {
-  final currentPage = Provider.of<CurrentPage>(
+  final pageController = Provider.of<PageNumberController>(
     context,
   );
   return Container(
@@ -107,61 +119,67 @@ Widget MyDrawerList(BuildContext context) {
             0,
             "Popular",
             Icons.view_week,
-            currentPage.currentPage == drawerSections.popular ? true : false,
+            pageController.currentPage == drawerSections.popular ? true : false,
             context),
         menuItem(
             1,
             "Search",
             Icons.search,
-            currentPage.currentPage == drawerSections.search ? true : false,
+            pageController.currentPage == drawerSections.search ? true : false,
             context),
         menuItem(
             2,
             "Profile",
             Icons.account_circle,
-            currentPage.currentPage == drawerSections.profile ? true : false,
+            pageController.currentPage == drawerSections.profile ? true : false,
             context),
         menuItem(
             3,
             "Watchlist",
             Icons.watch_later,
-            currentPage.currentPage == drawerSections.watchlist ? true : false,
+            pageController.currentPage == drawerSections.watchlist
+                ? true
+                : false,
             context),
         menuItem(
             4,
             "Lists",
             Icons.grid_3x3,
-            currentPage.currentPage == drawerSections.lists ? true : false,
+            pageController.currentPage == drawerSections.lists ? true : false,
             context),
         menuItem(
             5,
             "Diary",
             Icons.calendar_month,
-            currentPage.currentPage == drawerSections.diary ? true : false,
+            pageController.currentPage == drawerSections.diary ? true : false,
             context),
         menuItem(
             6,
             "Reviews",
             Icons.line_style,
-            currentPage.currentPage == drawerSections.reviews ? true : false,
+            pageController.currentPage == drawerSections.reviews ? true : false,
             context),
         menuItem(
             7,
             "Activity",
             Icons.upcoming,
-            currentPage.currentPage == drawerSections.activity ? true : false,
+            pageController.currentPage == drawerSections.activity
+                ? true
+                : false,
             context),
         menuItem(
             8,
             "Settings",
             Icons.settings,
-            currentPage.currentPage == drawerSections.settings ? true : false,
+            pageController.currentPage == drawerSections.settings
+                ? true
+                : false,
             context),
         menuItem(
             9,
             "Sign out",
             Icons.logout,
-            currentPage.currentPage == drawerSections.signout ? true : false,
+            pageController.currentPage == drawerSections.signout ? true : false,
             context),
       ],
     ),
@@ -170,12 +188,18 @@ Widget MyDrawerList(BuildContext context) {
 
 Widget menuItem(
     int id, String title, IconData icon, bool selected, BuildContext context) {
-  final currentPage = Provider.of<CurrentPage>(context, listen: false);
+  final pageController =
+      Provider.of<PageNumberController>(context, listen: false);
   return Material(
     color: selected ? appBlueTheme : bgColor,
     child: InkWell(
       onTap: (() {
-        currentPage.changeCurrentPage(drawerSections.values[id]);
+        print(id);
+        pageController.changeCurrentPage(drawerSections.values[id]);
+        Navigator.push(
+                context, MaterialPageRoute(builder: ((context) => Screens[id])))
+            .then((value) =>
+                pageController.changeCurrentPage(pageController.previousPage));
       }),
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -212,3 +236,16 @@ enum drawerSections {
   settings,
   signout
 }
+
+List Screens = [
+  PopularScreen(),
+  SearchOverview(),
+  ProfileScreen(),
+  WatchlistScreen(),
+  ListsScreen(),
+  DiaryScreen(),
+  ReviewsScreen(),
+  ActivityScreen(),
+  SettingsScreen(),
+  SignoutScreen(),
+];
