@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CurrentPage>(create: (context) => CurrentPage())
+        ChangeNotifierProvider<PageNumberController>(
+            create: (context) => PageNumberController())
       ],
       child: MaterialApp(
         title: 'MarvelBox',
