@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:marvel_app_2/screens/screen_overview_popular.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 
-class SearchOverview extends StatelessWidget {
-  const SearchOverview({super.key});
+class AddComicScreen extends StatelessWidget {
+  const AddComicScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +16,19 @@ class SearchOverview extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.close),
         ),
-        title: Text("Search Overview"),
+        title: Text("Add a film"),
         backgroundColor: appBlueTheme,
       ),
       backgroundColor: appBlueTheme,
-      body: SearchBody(),
+      body: AddComicScreenBody(),
     );
   }
 }
 
-class SearchBody extends StatelessWidget {
-  const SearchBody({super.key});
+class AddComicScreenBody extends StatelessWidget {
+  const AddComicScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {

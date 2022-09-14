@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:marvel_app_2/screens/activity_screen.dart';
-import 'package:marvel_app_2/screens/lists_screen.dart';
-import 'package:marvel_app_2/screens/profile_screen.dart';
-import 'package:marvel_app_2/screens/reviews_screen.dart';
-import 'package:marvel_app_2/screens/search_overview.dart';
-import 'package:marvel_app_2/screens/settings_screen.dart';
-import 'package:marvel_app_2/screens/signout_screen.dart';
-import 'package:marvel_app_2/screens/watchlist_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/activity_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/lists_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/profile_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/reviews_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/search_overview.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/settings_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/signout_screen.dart';
+import 'package:marvel_app_2/screens/app-drawer-screens/watchlist_screen.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 
-import 'diary_screen.dart';
+import 'add_comic_screen.dart';
+import 'app-drawer-screens/diary_screen.dart';
 
 class PageNumberController extends ChangeNotifier {
   var currentPage = drawerSections.popular;
@@ -61,25 +63,35 @@ class PopularScreen extends StatelessWidget {
     final pageController = Provider.of<PageNumberController>(
       context,
     );
+
     return DefaultTabController(
         length: tabList.length,
         child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            centerTitle: false,
-            title: Text(appTitle),
-            backgroundColor: appBlueTheme,
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(50),
-              child: Container(
-                color: bgColor,
-                child: TabBar(tabs: tabList),
+            appBar: AppBar(
+              elevation: 0,
+              centerTitle: false,
+              title: Text(appTitle),
+              backgroundColor: appBlueTheme,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(50),
+                child: Container(
+                  color: appBlueTheme,
+                  child: TabBar(
+                    tabs: tabList,
+                  ),
+                ),
               ),
             ),
-          ),
-          body: TabBarView(children: tabScreens),
-          drawer: AppDrawer(),
-        ));
+            body: TabBarView(children: tabScreens),
+            drawer: AppDrawer(),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: themeGreen,
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: ((context) => AddComicScreen())),
+              ),
+            )));
   }
 }
 
@@ -237,7 +249,7 @@ enum drawerSections {
   signout
 }
 
-List Screens = [
+List<Widget> Screens = [
   PopularScreen(),
   SearchOverview(),
   ProfileScreen(),
@@ -248,4 +260,5 @@ List Screens = [
   ActivityScreen(),
   SettingsScreen(),
   SignoutScreen(),
+  AddComicScreen()
 ];
