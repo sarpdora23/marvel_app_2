@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_app_2/api/MarvelAPI.dart';
+import 'package:marvel_app_2/api/models/Comic.dart';
 import 'package:marvel_app_2/screens/screen_login.dart';
 import 'package:marvel_app_2/screens/screen_signup.dart';
 import 'package:marvel_app_2/screens/screen_overview_popular.dart';
@@ -7,6 +8,7 @@ import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  MarvelAPI().fetchCharactersByNumber(80);
   runApp(const MyApp());
 }
 
