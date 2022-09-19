@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -16,6 +17,7 @@ import 'package:marvel_app_2/screens/app-drawer-screens/signout_screen.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/watchlist_screen.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'add_comic_screen.dart';
 import 'app-drawer-screens/diary_screen.dart';
@@ -44,27 +46,92 @@ class _NewsState extends State<News> {
     return FutureBuilder(
         future: myFuture,
         builder: ((context, snapshot) {
-          return Container(
-            width: 100,
-            child: SingleChildScrollView(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: news.titles.length,
-                  itemBuilder: ((context, index) {
-                    return Container(
-                      width: 30,
-                      height: 30,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Card(child: Text(news.titles[index] ?? '')),
-                      ),
-                    );
-                  })),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              color: bgColor,
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: news.titles.length,
+                    itemBuilder: ((context, index) {
+                      return CustomNewsCard(
+                        description: news.descriptions[index] ?? "-",
+                        image: news.imagePaths[index],
+                        link: news.links[index],
+                        title: news.titles[index],
+                      );
+                    })),
+              ),
             ),
           );
         }));
+  }
+}
+
+class CustomNewsCard extends StatelessWidget {
+  late String image;
+  late String title;
+  late String description;
+  late String link;
+
+  double _containerHeight = 200;
+  double _containerWidth = 400;
+
+  CustomNewsCard(
+      {required this.image,
+      required this.title,
+      required this.description,
+      required this.link});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: _containerWidth,
+          child: Column(children: [
+            Image.network(image, fit: BoxFit.scaleDown,
+                loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else
+                // ignore: curly_braces_in_flow_control_structures
+                return SizedBox(
+                    child: Shimmer.fromColors(
+                        baseColor: bgColor,
+                        highlightColor: Colors.white.withOpacity(0.2),
+                        child: Container(
+                          color: grayishColor,
+                          height: _containerHeight,
+                          width: _containerWidth,
+                        )));
+            }),
+            Container(
+              width: _containerWidth,
+              color: cardColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    description,
+                    style: TextStyle(color: grayishColor),
+                  )
+                ]),
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
   }
 }
 
@@ -100,7 +167,12 @@ class _PopularScreenState extends State<PopularScreen> {
       Container(
         color: bgColor,
       ),
-      SizedBox(width: 100, height: 30, child: News())
+      Center(
+          child: Container(
+              constraints: BoxConstraints.expand(),
+              color: bgColor,
+              height: 300,
+              child: News()))
     ];
   }
 

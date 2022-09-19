@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'MarvelBox',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, cardColor: cardColor),
         home: SignUpScreen(),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),

@@ -19,9 +19,13 @@ class GetNewsData extends ChangeNotifier {
       "https://www.marvel.com/v1/pagination/content_grid_cards?componentId=552916&offset=1&limit=100";
 
   String imageLink = "https://terrigen-cdn-dev.marvel.com/content/prod/1x/";
+  String domain = "https://www.marvel.com";
 
   var newsS;
   List titles = [];
+  List imagePaths = [];
+  List descriptions = [];
+  List links = [];
 
   bool isLoaded = false;
 
@@ -36,8 +40,14 @@ class GetNewsData extends ChangeNotifier {
       var jsonNews = jsonDecode(document.body!.text);
       print(jsonNews.runtimeType);
 
-      for (var i = 0; i < 5; i++) {
-        titles.add(jsonNews['data']['results']['data'][i]['link']['title']);
+      for (var i = 0; i < 99; i++) {
+        titles.add(
+            jsonNews['data']['results']['data'][i]['link']['title'].trim());
+        imagePaths.add(imageLink +
+            jsonNews['data']['results']['data'][i]['image']['filename']);
+        descriptions.add(jsonNews['data']['results']['data'][i]['description']);
+        links.add(
+            domain + jsonNews['data']['results']['data'][i]['link']['link']);
       }
       notifyListeners();
       isLoaded = true;
