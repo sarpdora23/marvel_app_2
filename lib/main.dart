@@ -7,8 +7,11 @@ import 'package:marvel_app_2/screens/screen_overview_popular.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 
+import 'news-scrape/news_scrape.dart';
+
 void main() {
   MarvelAPI().fetchCharactersByNumber(80);
+
   runApp(const MyApp());
 }
 
@@ -21,7 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<PageNumberController>(
-            create: (context) => PageNumberController())
+            create: (context) => PageNumberController()),
+        ChangeNotifierProvider<GetNewsData>(create: (context) => GetNewsData()),
       ],
       child: MaterialApp(
         title: 'MarvelBox',

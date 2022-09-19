@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:marvel_app_2/main.dart';
+import 'package:marvel_app_2/news-scrape/news_scrape.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/activity_screen.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/lists_screen.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/profile_screen.dart';
@@ -16,6 +20,54 @@ import 'package:provider/provider.dart';
 import 'add_comic_screen.dart';
 import 'app-drawer-screens/diary_screen.dart';
 
+class News extends StatefulWidget {
+  const News({super.key});
+
+  @override
+  State<News> createState() => _NewsState();
+}
+
+class _NewsState extends State<News> {
+  @override
+  void initState() {
+    final news = Provider.of<GetNewsData>(context, listen: false);
+    myFuture = news.getNews();
+    super.initState();
+  }
+
+  late final Future myFuture;
+
+  @override
+  Widget build(BuildContext context) {
+    final news = Provider.of<GetNewsData>(context, listen: false);
+
+    return FutureBuilder(
+        future: myFuture,
+        builder: ((context, snapshot) {
+          return Container(
+            width: 100,
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: news.titles.length,
+                  itemBuilder: ((context, index) {
+                    return Container(
+                      width: 30,
+                      height: 30,
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Card(child: Text(news.titles[index] ?? '')),
+                      ),
+                    );
+                  })),
+            ),
+          );
+        }));
+  }
+}
+
 class PageNumberController extends ChangeNotifier {
   var currentPage = drawerSections.popular;
   var previousPage = drawerSections.popular;
@@ -26,9 +78,31 @@ class PageNumberController extends ChangeNotifier {
   }
 }
 
-class PopularScreen extends StatelessWidget {
+class PopularScreen extends StatefulWidget {
   static final routeName = '/popular';
+
+  @override
+  State<PopularScreen> createState() => _PopularScreenState();
+}
+
+class _PopularScreenState extends State<PopularScreen> {
   final String appTitle = "Popular";
+  late final List<Widget> tabScreens;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    tabScreens = [
+      Container(
+        color: bgColor,
+      ),
+      Container(color: Colors.blueGrey),
+      Container(
+        color: bgColor,
+      ),
+      News()
+    ];
+  }
 
   final List<Widget> tabList = const [
     Tab(
@@ -42,19 +116,6 @@ class PopularScreen extends StatelessWidget {
     ),
     Tab(
       child: Text("NEWS"),
-    ),
-  ];
-
-  final List<Widget> tabScreens = [
-    Container(
-      color: bgColor,
-    ),
-    Container(color: Colors.blueGrey),
-    Container(
-      color: bgColor,
-    ),
-    Container(
-      color: Colors.blueGrey,
     ),
   ];
 
