@@ -23,7 +23,10 @@ class GetNewsData extends ChangeNotifier {
   var newsS;
   List titles = [];
 
+  bool isLoaded = false;
+
   Future getNews() async {
+    if (isLoaded == true) return;
     var urlApi = apiLink;
     var url = Uri.parse(urlApi);
     var res = await http.get(url, headers: HDRS);
@@ -37,6 +40,7 @@ class GetNewsData extends ChangeNotifier {
         titles.add(jsonNews['data']['results']['data'][i]['link']['title']);
       }
       notifyListeners();
+      isLoaded = true;
       return jsonNews;
     }
   }
