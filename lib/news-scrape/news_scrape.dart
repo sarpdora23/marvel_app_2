@@ -21,11 +21,12 @@ class GetNewsData extends ChangeNotifier {
   String imageLink = "https://terrigen-cdn-dev.marvel.com/content/prod/1x/";
   String domain = "https://www.marvel.com";
 
-  var newsS;
   List titles = [];
   List imagePaths = [];
   List descriptions = [];
   List links = [];
+
+  Map _news = {};
 
   bool isLoaded = false;
 
@@ -48,8 +49,18 @@ class GetNewsData extends ChangeNotifier {
         descriptions.add(jsonNews['data']['results']['data'][i]['description']);
         links.add(
             domain + jsonNews['data']['results']['data'][i]['link']['link']);
+
+        _news[i] = {
+          'titles': titles[i],
+          'imagePaths': imagePaths[i],
+          'descriptions': descriptions[i],
+          'links': links[i]
+        };
       }
+
+      return _news;
       notifyListeners();
+
       isLoaded = true;
       return jsonNews;
     }

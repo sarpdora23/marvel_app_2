@@ -47,27 +47,34 @@ class _NewsState extends State<News> {
     return FutureBuilder(
         future: myFuture,
         builder: ((context, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: bgColor,
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: news.titles.length,
-                    itemBuilder: ((context, index) {
-                      return CustomNewsCard(
-                        description: news.descriptions[index] ?? "-",
-                        image: news.imagePaths[index],
-                        link: news.links[index],
-                        title: news.titles[index],
-                      );
-                    })),
+          if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: bgColor,
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: news.titles.length,
+                      itemBuilder: ((context, index) {
+                        return CustomNewsCard(
+                          description:
+                              snapshot.data[index]['description'] ?? "-",
+                          image: snapshot.data[index]['imagePaths'],
+                          link: snapshot.data[index]['links'],
+                          title: snapshot.data[index]['titles'],
+                        );
+                      })),
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         }));
   }
 }
@@ -344,7 +351,7 @@ Widget menuItem(
     color: selected ? appBlueTheme : bgColor,
     child: InkWell(
       onTap: (() {
-        print(id);
+        if (pageController.currentPage == drawerSections.values[id]) return;
         pageController.changeCurrentPage(drawerSections.values[id]);
         Navigator.push(
                 context, MaterialPageRoute(builder: ((context) => Screens[id])))
