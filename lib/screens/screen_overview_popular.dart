@@ -15,6 +15,7 @@ import 'package:marvel_app_2/screens/app-drawer-screens/search_overview.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/settings_screen.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/signout_screen.dart';
 import 'package:marvel_app_2/screens/app-drawer-screens/watchlist_screen.dart';
+import 'package:marvel_app_2/screens/inapp_browser.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -88,47 +89,51 @@ class CustomNewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          width: _containerWidth,
-          child: Column(children: [
-            Image.network(image, fit: BoxFit.scaleDown,
-                loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              } else
-                // ignore: curly_braces_in_flow_control_structures
-                return SizedBox(
-                    child: Shimmer.fromColors(
-                        baseColor: bgColor,
-                        highlightColor: Colors.white.withOpacity(0.2),
-                        child: Container(
-                          color: grayishColor,
-                          height: _containerHeight,
-                          width: _containerWidth,
-                        )));
-            }),
-            Container(
-              width: _containerWidth,
-              color: cardColor,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(children: [
-                  Text(
-                    title,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    description,
-                    style: TextStyle(color: grayishColor),
-                  )
-                ]),
-              ),
-            )
-          ]),
+    return InkWell(
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => InApppBrowser(link)))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            width: _containerWidth,
+            child: Column(children: [
+              Image.network(image, fit: BoxFit.scaleDown,
+                  loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                } else
+                  // ignore: curly_braces_in_flow_control_structures
+                  return SizedBox(
+                      child: Shimmer.fromColors(
+                          baseColor: bgColor,
+                          highlightColor: Colors.white.withOpacity(0.2),
+                          child: Container(
+                            color: grayishColor,
+                            height: _containerHeight,
+                            width: _containerWidth,
+                          )));
+              }),
+              Container(
+                width: _containerWidth,
+                color: cardColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(children: [
+                    Text(
+                      title,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      description,
+                      style: TextStyle(color: grayishColor),
+                    )
+                  ]),
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
