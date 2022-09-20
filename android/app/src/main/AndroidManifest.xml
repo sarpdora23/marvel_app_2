@@ -32,7 +32,6 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
-    <key>io.flutter.embedded_views_preview</key>
-<string>YES</string>
+    
     
 </manifest>
