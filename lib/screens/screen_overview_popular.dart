@@ -61,7 +61,7 @@ class _NewsState extends State<News> {
                       itemBuilder: ((context, index) {
                         return CustomNewsCard(
                           description:
-                              snapshot.data[index]['description'] ?? "-",
+                              snapshot.data[index]['descriptions'] ?? "-",
                           image: snapshot.data[index]['imagePaths'],
                           link: snapshot.data[index]['links'],
                           title: snapshot.data[index]['titles'],

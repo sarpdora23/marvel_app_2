@@ -31,7 +31,7 @@ class GetNewsData extends ChangeNotifier {
   bool isLoaded = false;
 
   Future getNews() async {
-    if (isLoaded == true) return;
+    if (isLoaded == true) return _news;
     var urlApi = apiLink;
     var url = Uri.parse(urlApi);
     var res = await http.get(url, headers: HDRS);
@@ -57,11 +57,10 @@ class GetNewsData extends ChangeNotifier {
           'links': links[i]
         };
       }
-
+      isLoaded = true;
       return _news;
       notifyListeners();
 
-      isLoaded = true;
       return jsonNews;
     }
   }
