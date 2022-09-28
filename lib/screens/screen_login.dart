@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:marvel_app_2/models/user_model.dart';
 import 'package:marvel_app_2/screens/screen_overview_popular.dart';
 import 'package:marvel_app_2/screens/screen_signup.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
@@ -8,10 +9,12 @@ import 'package:marvel_app_2/screens/screen_login.dart';
 import 'package:marvel_app_2/utilities/image.dart';
 import 'package:marvel_app_2/utilities/colors.dart';
 
-void login({
+UserModel login({
   required String email,
   required String password,
-}) {}
+}) {
+  return UserModel(username: "", email: email, password: password);
+}
 
 class LoginScreen extends StatelessWidget {
   static final routeName = "/login";
@@ -70,12 +73,13 @@ class LoginScreen extends StatelessWidget {
                       backgroundColor: buttonColor,
                     ),
                     onPressed: () {
-                      login(
+                      UserModel loggedInUser = login(
                           email: emailController.text,
                           password: passwordController.text);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
+                              settings: RouteSettings(arguments: loggedInUser),
                               builder: ((context) => PopularScreen())));
                     },
                     child: Text("Confirm")),

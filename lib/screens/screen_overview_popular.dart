@@ -20,6 +20,7 @@ import 'package:marvel_app_2/utilities/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../models/user_model.dart';
 import 'add_comic_screen.dart';
 import 'app-drawer-screens/diary_screen.dart';
 
@@ -85,7 +86,7 @@ class CustomNewsCard extends StatelessWidget {
   late String description;
   late String link;
 
-  double _containerHeight = 200;
+  double _containerHeight = 130;
   double _containerWidth = 400;
 
   CustomNewsCard(
@@ -102,7 +103,7 @@ class CustomNewsCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           child: Container(
             width: _containerWidth,
             child: Column(children: [
@@ -118,7 +119,7 @@ class CustomNewsCard extends StatelessWidget {
                           highlightColor: Colors.white.withOpacity(0.2),
                           child: Container(
                             color: grayishColor,
-                            height: _containerHeight,
+                            height: 130,
                             width: _containerWidth,
                           )));
               }),
@@ -130,7 +131,11 @@ class CustomNewsCard extends StatelessWidget {
                   child: Column(children: [
                     Text(
                       title,
+                      textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.white),
+                    ),
+                    Container(
+                      height: 10,
                     ),
                     Text(
                       description,
@@ -170,6 +175,11 @@ class _PopularScreenState extends State<PopularScreen> {
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, (() {
+      dynamic currentUser = ModalRoute.of(context)?.settings.arguments;
+      print((currentUser as UserModel).email);
+    }));
+
     // TODO: implement initState
     tabScreens = [
       Container(

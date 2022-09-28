@@ -1,3 +1,5 @@
+import "package:firebase_core/firebase_core.dart";
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marvel_app_2/api/MarvelAPI.dart';
 import 'package:marvel_app_2/api/models/Comic.dart';
@@ -9,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'news-scrape/news_scrape.dart';
 
-void main() {
+Future main() async {
   MarvelAPI().fetchCharactersByNumber(80);
 
   runApp(const MyApp());

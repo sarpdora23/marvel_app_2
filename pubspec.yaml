@@ -43,6 +43,8 @@ dependencies:
   html: ^0.15.0
   shimmer: ^2.0.0
   webview_flutter: ^3.0.4
+  cloud_firestore: ^3.4.9
+  firebase: ^9.0.3
 
 dev_dependencies:
   flutter_test:

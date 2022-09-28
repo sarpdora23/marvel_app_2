@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "576645988370",
+    "project_id": "marvelboxd",
+    "storage_bucket": "marvelboxd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576645988370:android:a1092a0e80529ebd3198cb",
+        "android_client_info": {
+          "package_name": "com.sianmekidev.marvel_app_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576645988370-87a79r6hliqt5ncbgt5bhm0mpoif65ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEf3JLr_4u6BNXCxjn6CBfyHR6A2oQhMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576645988370-87a79r6hliqt5ncbgt5bhm0mpoif65ug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
